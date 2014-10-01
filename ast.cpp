@@ -10,19 +10,54 @@ namespace Sass {
 
   bool Compound_Selector::operator<(const Compound_Selector& rhs) const
   {
-    To_String to_string;
-    // ugly
-    return const_cast<Compound_Selector*>(this)->perform(&to_string) <
-           const_cast<Compound_Selector&>(rhs).perform(&to_string);
+    if (this->length() < rhs.length()) {
+      // the rhs has more selectors
+      return true;
+    }
+    else if (rhs.length() < this->length()) {
+      // the rhs has more selectors
+      return false;
+    }
+
+    for (size_t i=0; i < this->length(); i++) {
+      if (*((*this)[i]) < *(rhs[i])) {
+        // compare the simple selectors at this position
+        return true;
+      }
+      else if (*(rhs[i]) < *((*this)[i])) {
+        // compare the simple selectors at this position
+        return false;
+      }
+    }
+
+    return false;
   }
 
   bool Complex_Selector::operator<(const Complex_Selector& rhs) const
   {
-    To_String to_string;
-    return const_cast<Complex_Selector*>(this)->perform(&to_string) <
-           const_cast<Complex_Selector&>(rhs).perform(&to_string);
-  }
-  
+    if (this->combinator() < rhs.combinator()) {
+      return true;
+    }
+    else if (rhs.combinator() < this->combinator()) {
+      return false;
+    }
+    else if (this->head() && rhs.head() && *(this->head()) < *(rhs.head())) {
+      return true;
+    }
+    else if (this->head() && rhs.head() && *(rhs.head()) < *(this->head())) {
+      return false;
+    }
+    else if (this->tail() && rhs.tail()) {
+      return (*(this->tail()) < *(rhs.tail()));
+    }
+    else if (!this->tail() && rhs.tail()) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  } 
+ 
   bool Complex_Selector::operator==(const Complex_Selector& rhs) const {
   	// TODO: We have to access the tail directly using tail_ since ADD_PROPERTY doesn't provide a const version.
 
