@@ -15,7 +15,7 @@ namespace Sass {
       return true;
     }
     else if (rhs.length() < this->length()) {
-      // the rhs has more selectors
+      // the lhs has more selectors
       return false;
     }
 
