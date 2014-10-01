@@ -11,11 +11,11 @@ namespace Sass {
   bool Compound_Selector::operator<(const Compound_Selector& rhs) const
   {
     if (this->length() < rhs.length()) {
-      // the lhs has more selectors
+      // the rhs has more selectors
       return true;
     }
     else if (rhs.length() < this->length()) {
-      // the rhs has more selectors
+      // the lhs has more selectors
       return false;
     }
 
