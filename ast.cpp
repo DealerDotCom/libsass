@@ -10,18 +10,17 @@ namespace Sass {
 
   bool Compound_Selector::operator<(const Compound_Selector& rhs) const
   {
-    size_t i=0;
-    while (i < max(this->length(), rhs.length())) {
-      
-      if (i >= this->length()) {
-        // the rhs has more selectors
-        return true;
-      }
-      else if (i >= rhs.length()) {
-        // the lhs has more selectors
-        return false;
-      }
-      else if (*((*this)[i]) < *(rhs[i])) {
+    if (this->length() < rhs.length()) {
+      // the lhs has more selectors
+      return true;
+    }
+    else if (rhs.length() < this->length()) {
+      // the rhs has more selectors
+      return false;
+    }
+
+    for (size_t i=0; i < this->length(); i++) {
+      if (*((*this)[i]) < *(rhs[i])) {
         // compare the simple selectors at this position
         return true;
       }
@@ -29,8 +28,6 @@ namespace Sass {
         // compare the simple selectors at this position
         return false;
       }
-      
-      i++;
     }
 
     return false;
@@ -60,7 +57,7 @@ namespace Sass {
       return false;
     }
   }
-  
+
   bool Complex_Selector::operator==(const Complex_Selector& rhs) const {
   	// TODO: We have to access the tail directly using tail_ since ADD_PROPERTY doesn't provide a const version.
 
