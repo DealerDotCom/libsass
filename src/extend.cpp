@@ -1918,6 +1918,7 @@ namespace Sass {
     // normally we do this as the very last step (compare to ruby sass)
     pNewSelectors = remove_placeholders.remove_placeholders(pNewSelectors);
 
+    /*
     // unwrap all wrapped selectors with inner lists
     for (Complex_Selector_Obj cur : pNewSelectors->elements()) {
       // process tails
@@ -1949,7 +1950,7 @@ namespace Sass {
                       // remove parent selectors from inner selector
                       if (ext_cs->first() && ext_cs->first()->head()->length() > 0) {
                         Wrapped_Selector_Ptr ext_ws = Cast<Wrapped_Selector>(ext_cs->first()->head()->first());
-                        if (ext_ws/* && ext_cs->length() == 1*/) {
+                        if (ext_ws/-* && ext_cs->length() == 1*-/) {
                           Selector_List_Obj ws_cs = Cast<Selector_List>(ext_ws->selector());
                           Compound_Selector_Obj ws_ss = ws_cs->first()->head();
                           if (!(
@@ -1981,6 +1982,7 @@ namespace Sass {
         cur = cur->tail();
       }
     }
+    */
 
     // memory results in a map table - since extending is very expensive
     memoizeList.insert(std::pair<Selector_List_Obj, Selector_List_Obj>(pSelectorList, pNewSelectors));
